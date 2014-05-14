@@ -1,6 +1,6 @@
 package othello.Othello;
 /**
- * Created by lfmingo on 01/04/14.
+ * Created by Samuel on 01/04/14.
  *
  */
 public class Turn {
