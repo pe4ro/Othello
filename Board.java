@@ -2,34 +2,14 @@ package othello.Othello;
 
 /**
  * Created by pmunoz and smartinez on 01/04/14.
- * Updated by aeap and jgeorge on 05/05/14.
+ * Updated by aeap and jgeorge on 14/05/14.
  * Updated by zwodnik on 09/05/14.
  */
 import java.util.ArrayList;
 
-class Move { // TO GO IN TURN CLASS MAYBE?
-	int i, j;
-
-	public Move() {
-	}
-
-	public Move(int i, int j) {
-		this.i = i;
-		this.j = j;
-	}
-
-	public int getI() {
-		return i;
-	}
-
-	public int getJ() {
-		return j;
-	}
-}
-
 public class Board {
 
-	public static final int NUM = 8; // 8 rows 8 columns board
+	public static final int NUM = 8; // 8 rows by 8 columns board
 	private Cell[][] cells = new Cell[NUM][NUM]; // matrix
 	int[] counter = new int[2]; // counter for both players moves
 	boolean gameOver; // game is over
@@ -44,28 +24,15 @@ public class Board {
 	public final Move downRight = new Move(1, 1); // down and right
 
 	final Move directions[] = { up, down, left, right, upLeft, upRight,
-			downLeft, downRight }; // array containing all directions possible
+			downLeft, downRight }; // array containing all the directions
+									// possible
 
-	public int intPlayer(boolean boolPlayer) { // TESTING
-		int result = boolPlayer ? 1 : 0; // 1 for false black and 0 for true
-											// white
-		return result;
-	}
-
-	public boolean boolPlayer(int color) { // TESTING
-		boolean result;
-
-		if (color == 0) {
-			result = true; // true for white
-		} else {
-			result = false; // false for black
-		}
-		return result;
-	}
-
-	/*
-	 * Sets the boards Sets both players first chips on the board Sets both
-	 * players counter at the start Sets noMoves to false at the start
+	/**
+	 * Class constructor.
+	 * 
+	 * Sets the boards Sets both players' starting chips on the board Sets both
+	 * players counter at the start of the game Sets GameOver to false at the
+	 * start
 	 */
 	public Board() {
 		for (int i = 0; i < NUM; i++)
@@ -73,24 +40,24 @@ public class Board {
 			for (int j = 0; j < NUM; j++)
 				this.cells[i][j] = new Cell(); // sets all the cells to empty
 
-		// 0 for white starting chips
-		this.cells[3][3].placeChip(0); // player 0 has to be white?
-		this.cells[4][4].placeChip(0);
-
 		// 1 for black starting chips
-		this.cells[3][4].placeChip(1); // player 1 has to be black?
+		this.cells[3][4].placeChip(1);
 		this.cells[4][3].placeChip(1);
 
+		// 0 for white starting chips
+		this.cells[3][3].placeChip(0);
+		this.cells[4][4].placeChip(0);
+
 		// start counter at 2 for each player
-		counter[0] = 2;
-		counter[1] = 2;
+		counter[1] = 2; // black player counter
+		counter[0] = 2; // white player counter
 
 		// allows moves by default at start of game
 		gameOver = false;
 	}
 
-	/*
-	 * Creates the outlines and the line numbers of the board
+	/**
+	 * Creates the outlines and the row and column numbers of the board
 	 */
 	public void display() {
 
@@ -112,37 +79,31 @@ public class Board {
 
 	}
 
-	/*
-	 * Places a chip on the board
+	/**
+	 * Places a chip on the board.
 	 * 
-	 * @param int color, int row, int col
+	 * @param int color - the color of the player
+	 * @param int row - the row played
+	 * @param int col - the column played
 	 */
 	public void placeChip(int color, int row, int col) {
 		this.cells[row][col].placeChip(color);
 	}
 
-	// public boolean findLegalMove(...){
 	/**
-	 * Here program must check if the chip could be place in a position set as
-	 * parameter It could return the coordinates of every available position
-	 */
-	// }
-
-	/*
-	 * Finds all the valid moves available to the player
+	 * Finds all the valid moves available to the player.
 	 * 
-	 * @param Move move, boolean player(1=false=black, 0=true=white)
-	 * 
+	 * @param Move
+	 *            move - the move played
+	 * @param int player - the player playing
 	 * @return boolean true if legal move, false if not
 	 */
 
-	public boolean findLegalMoveNew(Move move, int player) { // !! TESTING
-																// boolean / int
-																// issue
+	public boolean findLegalMoveNew(Move move, int player) {
+
 		boolean result = false; // no legal moves found by default
-		int opponent = (player + 1) % 2; // intPlayer(!player); // if player
-											// false, opponent
-		int playing = player; // intPlayer(player); // if player true, playing
+		int opponent = (player + 1) % 2; // finds the opponent
+		int playing = player; // player playing
 
 		int i = move.getI(); // get position i axis
 		int j = move.getJ(); // get position j axis
@@ -155,38 +116,32 @@ public class Board {
 															// one
 
 				Move direction = directions[k]; // direction currently in use is
-												// stored in new variable
+												// stored
 				int iDir = direction.getI(); // gets the i axis of the direction
-												// currently in use
+												// in use
 				int jDir = direction.getJ(); // gets the j axis of the direction
-												// currently in use
-				int jump = 2;
+												// in use
+				int jump = 2; // jump one chip
 				try {
 					if (cells[i + iDir][j + jDir].getPlayer() == opponent) {
 						while ((j + (jump * jDir)) > -1
 								&& (j + (jump * jDir)) < 8
 								&& (i + (jump * iDir)) < 8
 								&& (i + (jump * iDir)) > -1) { // search inside
-																// the
-																// board
+																// the board
 							if (!cells[i + jump * iDir][j + jump * jDir]
-									.isEmpty()) { // cell
-													// must
-													// be
-													// not
-													// empty
+									.isEmpty()) { // cell must not be empty
 								if (cells[i + jump * iDir][j + jump * jDir]
 										.getPlayer() == playing)
-									return true; // if same color found, legal
-													// move
-													// found
+									return true; // if player color is found,
+													// then look for a move
 								else if (cells[i + jump * iDir][j + jump * jDir]
 										.isEmpty())
 									break;
 							} else {
 								break;
 							}
-							jump++;
+							jump++; // jump another extra chip
 						}
 					}
 				} catch (Exception e) {
@@ -194,14 +149,13 @@ public class Board {
 
 			}
 		}
-		return result;
+		return result; // true move found, false no moves found
 	}
 
-	/*
-	 * Creates a new ArrayList of all the valid moves available
+	/**
+	 * Creates a new ArrayList of all the valid moves available.
 	 * 
-	 * @param int color
-	 * 
+	 * @param int color - the color of the player
 	 * @return ArrayList of all validMoves available
 	 */
 	public ArrayList<Move> validMove(int color) {
@@ -223,28 +177,35 @@ public class Board {
 		return allValidMoves;
 	}
 
-	/*
-	 * Set cell canselect = true
+	/**
+	 * Allows the cell to be selected (canSelect = true).
 	 * 
-	 * @param Move move
-	 * 
-	 * @return void
+	 * @param Move
+	 *            move - the move chosen
 	 */
 	public void setCanSelect(Move move) {
 		this.cells[move.getI()][move.getJ()].setSelect();
 	}
 
+	/**
+	 * Allows the cell to be selected.
+	 * 
+	 * @param Move
+	 *            move - the move chosen
+	 * @return true when can be selected, false when not
+	 */
 	public boolean canSelect(Move move) {
 		return this.cells[move.getI()][move.getJ()].canSelect();
 	}
 
-	// public void replaceChip(...){
 	/**
-	 * Here program will replace chips while are between the color chips
+	 * Replaces the chips in between the player's old and new chips.
+	 * 
+	 * @param Move
+	 *            move - the move played
+	 * @param int player - the player playing
 	 */
-	// }
-
-	public void replaceChip(Move move, int player) { // working version
+	public void replaceChip(Move move, int player) {
 		int opponent = (player + 1) % 2;
 		int playing = player;
 
@@ -273,22 +234,18 @@ public class Board {
 																					// the
 																					// board
 					if (!cells[i + jump * iDir][j + jump * jDir].isEmpty()) // cell
-																			// must
+																			// cannot
 																			// be
-																			// not
 																			// empty
 						if (cells[i + jump * iDir][j + jump * jDir].getPlayer() == playing) {
 							for (int k = 1; k < jump; k++) {
-								cells[i + k * iDir][j + k * jDir].changeChip();// =
-																				// playing;
-																				// //
-																				// everything
-																				// between
-																				// i
-																				// and
-																				// j
-																				// is
-																				// ours
+								cells[i + k * iDir][j + k * jDir].changeChip();// change
+																				// the
+																				// chips
+																				// color
+																				// to
+																				// player
+																				// color
 							}
 							break;
 						}
@@ -298,20 +255,10 @@ public class Board {
 		}
 	}
 
-	// public int getChipsCount(int color){
 	/**
-	 * program will iterate over the array and return the number of chips that
-	 * the player ser as parameter has
+	 * Updates and returns the value of the counter for each player.
 	 * 
-	 * Maybe we could set another method to count the total
-	 */
-	// }
-
-	/*
-	 * Updates and Returns the value of the counter for each player
-	 * 
-	 * @param int color
-	 * 
+	 * @param int color - the player's color
 	 * @return counter for each player
 	 */
 	public int getChipsCount(int color) {
@@ -335,8 +282,8 @@ public class Board {
 		return counter[color];
 	}
 
-	/*
-	 * Adds up both player's counters and returns the value
+	/**
+	 * Adds up both player's counters and returns the value.
 	 * 
 	 * @return total of turns
 	 */
@@ -344,27 +291,19 @@ public class Board {
 		return counter[0] + counter[1];
 	}
 
-	// public boolean gameOver(...){
 	/**
-	 * If the board is complete or if a chip cant be set, this method return
-	 * true.
-	 */
-
-	/*
-	 * Checks if the players have made 64 moves which indicates the end of the
-	 * game.
-	 * 
-	 * @param none
+	 * Checks if the players have made 64 moves in total, which indicates the
+	 * end of the game.
 	 */
 	public boolean gameOver() {
 		int count = 0;
 
 		if (counter[0] + counter[1] == 64) { // if all the cells are full then
-												// game over
+												// it's game over
 			return true;
 		}
 
-		else { // TESTING
+		else {
 			for (int j = 0; j < NUM; j++) {
 				for (int i = 0; i < NUM; i++) {
 					if (findLegalMoveNew(new Move(i, j), 0) == true) {
