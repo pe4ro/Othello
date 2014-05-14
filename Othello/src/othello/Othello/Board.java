@@ -8,6 +8,7 @@ package othello.Othello;
 import java.util.ArrayList;
 
 public class Board {
+	//you are rubish
 
 	public static final int NUM = 8; // 8 rows by 8 columns board
 	private Cell[][] cells = new Cell[NUM][NUM]; // matrix
