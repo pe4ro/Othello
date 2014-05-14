@@ -1,4 +1,4 @@
-package othello.Othello;
+package model;
 
 /**
  * Created by pmunoz and smartinez on 01/04/14.
@@ -8,7 +8,7 @@ package othello.Othello;
 import java.util.ArrayList;
 
 public class Board {
-	
+
 	public static final int NUM = 8; // 8 rows by 8 columns board
 	private Cell[][] cells = new Cell[NUM][NUM]; // matrix
 	int[] counter = new int[2]; // counter for both players moves
@@ -320,4 +320,19 @@ public class Board {
 		}
 		return false;
 	}
+
+
+
+    ////// Luis Fer
+    public boolean isEmptyCell(int i, int j) {
+        return this.cells[i][j].isEmpty();
+    }
+
+    public boolean isMarked(int i, int j) {
+        return this.cells[i][j].canSelect();
+    }
+
+    public int getPlayerColor(int i, int j) {
+        return this.cells[i][j].getPlayer();
+    }
 }

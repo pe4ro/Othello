@@ -1,4 +1,4 @@
-package othello.Othello;
+package model;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,7 +27,7 @@ public class Othello {
 	 * Starts the game and initializes it with: the first player, a chosen turn
 	 * and the board.
 	 * 
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public void startGame() throws IOException /* the game starts */{
 

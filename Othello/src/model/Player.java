@@ -1,4 +1,4 @@
-package othello.Othello;
+package model;
 
 import java.io.*;
 import java.util.ArrayList;
