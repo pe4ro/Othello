@@ -1,37 +1,42 @@
 package othello.Othello;
+
 /**
- * Created by Samuel on 01/04/14.
- *
+ * Created by Samuel on 01/04/14. Updated by aeap and jgeorge on 14/05/14.
  */
+
 public class Turn {
 
+	private int value; // the player.
 
-   private int value;
+	/**
+	 * Class constructor. Creates a turn starting with a random player.
+	 */
+	public Turn() {
+		this.value = (int) (Math.random() * 2.0d);
+	}
 
+	/**
+	 * Class constructor. Creates a turn starting with the selected player.
+	 * 
+	 * @param int v - adjust the value
+	 */
+	public Turn(int v) {
+		this.value = v;
+	}
 
-   public Turn() {
-        this.value =  (int)(Math.random() * 2.0d );
-   }
+	/**
+	 * Returns the player whose turn it is.
+	 * 
+	 * @return value of the turn
+	 */
+	public int getTurn() {
+		return this.value;
+	}
 
-    /**
-     *according to the rules, black start to play, but we can change it if we want
-     * This class is finished, only is necessary to decide who started first, black, white or random
-      * @param v This parameter adjust the value ...
-     */
-   public Turn(int v) {
-       this.value = v;
-   }
-
-
-    /**
-     *
-     * @return return the value of the turn ...
-     */
-    public int getTurn() {
-        return this.value;
-    }
-
-    public void change() {
-        this.value = (this.value + 1) % 2;
-    }
+	/**
+	 * Changes the turn to the other player.
+	 */
+	public void change() {
+		this.value = (this.value + 1) % 2;
+	}
 }
