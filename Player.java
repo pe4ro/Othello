@@ -1,5 +1,6 @@
-   
-   import java.util.ArrayList;
+package othello.Othello;
+import java.io.*;
+import java.util.ArrayList;
    
     public class Player{
     
@@ -12,7 +13,11 @@
         this.color = color;
         this.board = board;
     }
-
+    public void setNames() throws IOException{
+    	BufferedReader line= new BufferedReader(new InputStreamReader (System.in));
+    	System.out.println("tell me your name: ");
+    	this.name=line.readLine();	
+    }
     public String getName() {
         return this.name;
     }
