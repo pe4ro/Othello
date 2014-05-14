@@ -4,8 +4,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Othello extends JPanel {
-	public Othello() {
+public class OhtelloGUI extends JPanel {
+	/**
+	 * 
+	 */
+
+	public OhtelloGUI() {
 		super();
 		this.setLayout(new BorderLayout());
 
@@ -59,7 +63,7 @@ public class Othello extends JPanel {
 	public static void main(String[] args) {
 		JFrame principal = new JFrame("Main menu");
 		JFrame marco = new JFrame("Othello");
-		marco.getContentPane().add(new Othello());
+		marco.getContentPane().add(new OhtelloGUI());
 		principal.pack();
 		marco.pack();
 		principal.setVisible(false);

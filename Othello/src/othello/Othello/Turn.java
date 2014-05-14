@@ -1,4 +1,4 @@
-package othello.Othello;
+package othello.Othello ;
 
 /**
  * Created by Samuel on 01/04/14. Updated by aeap and jgeorge on 14/05/14.
