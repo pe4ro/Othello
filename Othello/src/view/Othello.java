@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Othello extends JPanel {
+	//newCode
 
     private Board board = new Board();
     private Player[] players = new Player[NUM_PLAYERS]; // array of players for two
