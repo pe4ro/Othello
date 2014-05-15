@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import model.AI;
+import static view.Othello.N;
 
 /**
  * Created by IntelliJ IDEA.
@@ -70,9 +71,39 @@ public class MyClickListener extends MouseAdapter {
                 e.printStackTrace();
             }
         }
+        
+        
 
         turn.change();
-        othello.refreshOthello();
+        othello.refreshOthello();    
+
+        
+        int count = 0;
+        for (int i=0; i<N; i++)
+            for (int j=0; j<N; j++)
+                if (board.isMarked(i, j) && (board.isEmptyCell(i, j)))
+                    count ++;
+        if (count == 0) {
+            turn.change();
+            othello.refreshOthello();    
+            System.out.println("kkkkk");
+        } else {
+            AI.move_cpu_medium(board, players[turn.getTurn()]);
+            turn.change();
+            othello.refreshOthello();
+            
+            count = 0;
+            for (int i=0; i<N; i++)
+                for (int j=0; j<N; j++)
+                    if (board.isMarked(i, j) && (board.isEmptyCell(i, j)))
+                        count ++;
+            if (count == 0) {
+                turn.change();
+                othello.refreshOthello();    
+                System.out.println("kkkkk");
+            }
+        }
+        
     }
 
 

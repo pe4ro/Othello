@@ -61,7 +61,6 @@ public class Othello {
 					if (board.findLegalMoveNew(new Move(i, j), turn.getTurn()) == true) {
 						count++; // add a possible move to the count
 					}
-
 			if (count == 0) { // when no possible moves
 				turn.change(); // change the turn to the other player
 				board.display(); // display the updated board

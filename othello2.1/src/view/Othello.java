@@ -88,7 +88,7 @@ public class Othello extends JPanel {
         turn = new Turn((who + 1) % 2);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         JFrame frame = new JFrame("Othello -- Eagles");
         Othello othello = new Othello();
 
@@ -104,8 +104,6 @@ public class Othello extends JPanel {
         frame.getContentPane().add(othello);
         frame.pack();
         frame.setVisible(true);
-
-
     }
 
     public void refreshOthello() {
