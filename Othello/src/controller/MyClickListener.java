@@ -3,9 +3,13 @@ package controller;
 import model.Board;
 import model.Player;
 import model.Turn;
+import music.MakeSound;
 import view.MyLabel;
 import view.Othello;
+import view.RotatedIcon;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -29,14 +33,64 @@ public class MyClickListener extends MouseAdapter {
     }
 
     @Override
-    public void mouseClicked(MouseEvent mouseEvent) {
+    public void mouseClicked(final MouseEvent mouseEvent) {
         super.mouseClicked(mouseEvent);
         int row = ((MyLabel) mouseEvent.getSource()).getRow();
         int column = ((MyLabel) mouseEvent.getSource()).getColumn();
         if (board.isMarked(row, column)) {
             players[turn.getTurn()].placeChip(row, column); // place
-            turn.change();
-            othello.refreshOthello();
+
+            new Thread() {
+                public void run() {
+                    ((MyLabel) mouseEvent.getSource()).setSize(dimension);
+                    new MakeSound().playSound("music/beep.wav");
+
+                }
+            }.start();
+
+            new Thread() {
+                public void run() {
+                    playFX(((MyLabel) mouseEvent.getSource()));
+                }
+            }.start();
+
         }
+    }
+
+    private void playFX(MyLabel source) {
+
+        RotatedIcon ri;
+        for (int i=0; i< 10; i++) {
+            ri = new RotatedIcon(source.getIcon(), 10);
+            source.setIcon(ri);
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        turn.change();
+        othello.refreshOthello();
+    }
+
+
+
+    private Dimension dimension;
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+        super.mouseEntered(mouseEvent);
+        dimension = ((JLabel)mouseEvent.getSource()).getSize();
+        Dimension newdimension = new Dimension();
+        newdimension.setSize(dimension.getWidth()*1.1, dimension.getHeight()*1.1);
+        ((JLabel)mouseEvent.getSource()).setSize(newdimension);
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+        super.mouseExited(mouseEvent);
+        ((JLabel)mouseEvent.getSource()).setSize(dimension);
+
     }
 }

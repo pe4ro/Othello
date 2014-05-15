@@ -7,10 +7,13 @@ import model.Turn;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 
 public class Othello extends JPanel {
-	//newCode
 
     private Board board = new Board();
     private Player[] players = new Player[NUM_PLAYERS]; // array of players for two
@@ -22,16 +25,29 @@ public class Othello extends JPanel {
     final public static int NUM_PLAYERS = 2;
     final public static int N = 8;
 
+    private JLabel[] playerpoints = new JLabel[NUM_PLAYERS];
     private JLabel[][] labels = new JLabel[N][N];
-    private Icon icon_android = new ImageIcon("images/android.png");
-    private Icon icon_apple = new ImageIcon("images/apple.png");
+    public static Icon icon_android = new ImageIcon("images/android.png");
+    public static Icon icon_apple = new ImageIcon("images/apple.png");
     private Icon icon_empty = new ImageIcon("images/empty.png");
     private Icon icon_mark = new ImageIcon("images/mark.png");
+    private Font font = null;
 
     public Othello() {
         initModel();
         myClickListener = new MyClickListener(this, board, turn, players);
         setLayout(new BorderLayout());
+
+
+        try {
+            font = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/Herculanum.ttf")).deriveFont(20.0f);
+        } catch (FontFormatException e) {
+
+        } catch (IOException e) {
+
+        }
+
+        currentPlayerImage.setFont(font);
 
         /// CENTER
         JPanel centerPanel = new JPanel(new GridLayout(N,N));
@@ -52,6 +68,19 @@ public class Othello extends JPanel {
         currentPlayerImage.setText("Current Player");
         northPanel.add(currentPlayerImage);
         this.add(northPanel, BorderLayout.NORTH);
+
+        /// WEST
+        JPanel westPanel = new JPanel();
+        for (int i=0;i<NUM_PLAYERS; i++) {
+            playerpoints[i] = new JLabel();
+            playerpoints[i].setFont(font);
+            westPanel.add(playerpoints[i]);
+        }
+        playerpoints[players[0].getColor()].setIcon(icon_android);
+        playerpoints[players[1].getColor()].setIcon(icon_apple);
+
+
+        this.add(westPanel, BorderLayout.SOUTH);
     }
 
     private void initModel() {
@@ -81,6 +110,10 @@ public class Othello extends JPanel {
 
     public void refreshOthello() {
         this.players[turn.getTurn()].findCanSelect();
+
+        for (int i=0;i<NUM_PLAYERS; i++)
+            playerpoints[i].setText(""+board.getChipsCount(this.players[i].getColor()));
+
 
         if (players[turn.getTurn()].getColor() == 1)
             this.currentPlayerImage.setIcon(icon_apple);

@@ -265,19 +265,15 @@ public class Board {
 
 		int scoreWhite = 2;
 		int scoreBlack = 2;
+        counter[0] = 0;
+        counter[1] = 0;
 
 		for (int i = 0; i < cells.length; i++) {
-			for (int j = 0; j < cells[j].length; j++) {
-				if (color == 0) {
-					scoreWhite++;
-				}
-				if (color == 1) {
-					scoreBlack++;
-				}
+			for (int j = 0; j < cells[i].length; j++) {
+                if (!cells[i][j].isEmpty())
+                    counter[cells[i][j].getPlayer()]++;
 			}
 		}
-		counter[0] = scoreWhite;
-		counter[1] = scoreBlack;
 
 		return counter[color];
 	}
@@ -335,4 +331,6 @@ public class Board {
     public int getPlayerColor(int i, int j) {
         return this.cells[i][j].getPlayer();
     }
+
+
 }
