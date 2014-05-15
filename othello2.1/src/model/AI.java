@@ -14,6 +14,7 @@ public class AI {
      *Method move_cpu_easy makes a simple move by cpu using random function  
      *
      * @param board 
+     * @param player 
      */
     public static void move_cpu_easy(Board board, Player player){
         
@@ -40,43 +41,56 @@ public class AI {
     
     public static void move_cpu_medium(Board board, Player player){
         
+        
         List<Move> proper = new ArrayList<>(); //list of all avaliable moves that can be done
         
         for(int i=0; i<8; i++){
             for(int j=0; j<8; j++){
                 Move move = new Move(i,j);
-                if(board.findLegalMoveNew(move, player.getColor()))
+                if(board.findLegalMoveNew(move, player.getColor())){
                     proper.add(move);
+                }
+                
             }
         }
         
-        if(proper.contains(new Move(0,0))){
-            player.placeChip(0, 0);
-            return;
+        for(Move m : proper){
+            
+            if(m.getI()==0 && m.getJ()==0){
+                player.placeChip(0, 0);
+                return;
+            }
+            if(m.getI()==0 && m.getJ()==7){
+                player.placeChip(0, 7);
+                return;
+            }
+            if(m.getI()==7 && m.getJ()==0){
+                player.placeChip(7, 0);
+                return;
+            }
+            if(m.getI()==7 && m.getJ()==7){
+                player.placeChip(7,7);
+                return;
+            }
+            
         }
-        if(proper.contains(new Move(0,7))){
-            player.placeChip(0, 7);
-            return;
-        }
-        if(proper.contains(new Move(7,0))){
-            player.placeChip(7, 0);
-            return;
-        }
-        if(proper.contains(new Move(7,7))){
-            player.placeChip(7,7);
-            return;
-        }
+        
+        
         
         Random r = new Random();
         
         while(true){
-            int a = r.nextInt(proper.size());
-            if(!proper.get(a).equals(new Move(1,1)) || 
-               !proper.get(a).equals(new Move(1,6)) ||
-               !proper.get(a).equals(new Move(6,1)) ||
-               !proper.get(a).equals(new Move(6,6)) ){
-                    player.placeChip(proper.get(a).getI(), proper.get(a).getJ());
-                    return;
+            try{
+                int a = r.nextInt(proper.size());
+                if((proper.get(a).getI() != 1 && proper.get(a).getJ() != 1) || 
+                   (proper.get(a).getI() != 1 && proper.get(a).getJ() != 6) ||
+                   (proper.get(a).getI() != 6 && proper.get(a).getJ() != 1) ||
+                   (proper.get(a).getI() != 6 && proper.get(a).getJ() != 6) ){
+                        player.placeChip(proper.get(a).getI(), proper.get(a).getJ());
+                        return;
+                }
+            }catch(IllegalArgumentException e){
+                System.err.print(e.toString());
             }
                 
         }
