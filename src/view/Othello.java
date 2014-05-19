@@ -72,9 +72,9 @@ public class Othello extends JPanel {
         northPanel.add(currentPlayerImage);
         northPanel.setBackground(new Color(0, 0, 0));
 
-        this.add(northPanel, BorderLayout.NORTH);
+        //this.add(northPanel, BorderLayout.NORTH);
 
-        /// WEST
+        /// NORTH
         JPanel westPanel = new JPanel();
         for (int i=0;i<NUM_PLAYERS; i++) {
             playerpoints[i] = new JLabel();
@@ -87,9 +87,30 @@ public class Othello extends JPanel {
         playerpoints[players[1].getColor()].setIcon(icon_apple);
         westPanel.setBackground(new Color(0, 0, 0));
 
-
-
-        this.add(westPanel, BorderLayout.SOUTH);
+        //this.add(westPanel, BorderLayout.SOUTH);
+        
+        JPanel eastPanel = new JPanel(new GridLayout());
+        
+        JPanel title = new JPanel();
+        title.add(new JLabel("Current status!"));
+        eastPanel.add(title);
+        
+        JPanel p1 = new JPanel(new BorderLayout());
+        JLabel trophey1 = new JLabel();
+        trophey1.setIcon(new ImageIcon("images/android.png"));
+        
+        JLabel icon1 = new JLabel();
+        icon1.setIcon(new ImageIcon("images/apple.png"));
+        
+        JLabel score1 = new JLabel(String.valueOf(board.getChipsCount(players[0].getColor())));
+       
+        p1.add(trophey1);
+        p1.add(icon1);
+        p1.add(score1);
+        
+        eastPanel.add(p1);
+        
+        this.add(eastPanel, BorderLayout.EAST);
     }
 
     private void initModel() {
