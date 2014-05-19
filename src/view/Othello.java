@@ -13,7 +13,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 
-public class Othello extends JPanel {
+public class Othello extends JPanel { 
 
     private Board board = new Board();
     private Player[] players = new Player[NUM_PLAYERS]; // array of players for two
